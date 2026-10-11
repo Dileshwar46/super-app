@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Super App</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+}
+
+header {
+  background: #1e293b;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #a78bfa;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #7c3aed;
+  color: white;
+}
+
+input {
+  padding: 11px;
+  border-radius: 8px;
+  border: 1px solid #475569;
+  background: #0f172a;
+  color: white;
+  width: 100%;
+}
+
+.search {
+  flex: 1;
+  min-width: 70px;
+}
+
+nav {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px;
+  background: #1e293b;
+}
+
+nav button {
+  white-space: nowrap;
+}
+
+main {
+  padding: 18px;
+}
+
+.welcome {
+  background: linear-gradient(135deg, #6d28d9, #2563eb);
+  padding: 25px;
+  border-radius: 16px;
+  margin-bottom: 22px;
+}
+
+.welcome h1 {
+  margin-top: 0;
+}
+
+h2 {
+  margin-top: 25px;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.category {
+  background: #334155;
+}
+
+.videos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: #1e293b;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.thumbnail {
+  height: 140px;
+  display: grid;
+  place-items: center;
+  font-size: 45px;
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+}
+
+.card:nth-child(2) .thumbnail {
+  background: linear-gradient(135deg, #047857, #0e7490);
+}
+
+.card:nth-child(3) .thumbnail {
+  background: linear-gradient(135deg, #b45309, #be123c);
+}
+
+.card:nth-child(4) .thumbnail {
+  background: linear-gradient(135deg, #1d4ed8, #6d28d9);
+}
+
+.card:nth-child(5) .thumbnail {
+  background: linear-gradient(135deg, #15803d, #65a30d);
+}
+
+.card:nth-child(6) .thumbnail {
+  background: linear-gradient(135deg, #334155, #0f766e);
+}
+
+.info {
+  padding: 12px;
+}
+
+.info h3 {
+  font-size: 16px;
+  margin-top: 0;
+}
+
+.info p {
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+.message {
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 22px;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+footer {
+  padding: 25px;
+  text-align: center;
+  color: #94a3b8;
+}
+
+@media (max-width: 700px) {
+  header {
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    font-size: 19px;
+  }
+
+  .search {
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  main {
+    padding: 12px;
+  }
+
+  .videos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .thumbnail {
+    height: 110px;
+  }
+
+  .info {
+    padding: 9px;
+  }
+
+  .info h3 {
+    font-size: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">✨ Super App</div>
+
+  <div class="search">
+    <input id="search"
+      type="search"
+      placeholder="वीडियो खोजें..."
+      oninput="searchVideos()">
+  </div>
+
+  <button onclick="login()">लॉगिन</button>
+</header>
+
+<nav>
+  <button onclick="showHome()">🏠 होम</button>
+  <button onclick="showShorts()">📱 Shorts</button>
+  <button onclick="upload()">⬆️ अपलोड</button>
+  <button onclick="editor()">✂️ वीडियो एडिटर</button>
+  <button onclick="settings()">⚙️ सेटिंग्स</button>
+</nav>
+
+<main>
+
+<section class="welcome">
+  <h1>आपका अपना Super App 🎬</h1>
+  <p>
+    वीडियो देखें, नई चीजें सीखें और अपना क्रिएटर चैनल बनाएँ।
+  </p>
+  <button onclick="upload()">वीडियो अपलोड करें</button>
+</section>
+
+<h2>वीडियो कैटेगरी</h2>
+
+<div class="categories">
+  <button class="category" onclick="filterVideos('सभी')">सभी</button>
+  <button class="category" onclick="filterVideos('मनोरंजन')">मनोरंजन</button>
+  <button class="category" onclick="filterVideos('संगीत')">संगीत</button>
+  <button class="category" onclick="filterVideos('खेती')">खेती</button>
+  <button class="category" onclick="filterVideos('पढ़ाई')">पढ़ाई</button>
+  <button class="category" onclick="filterVideos('टेक्नोलॉजी')">टेक्नोलॉजी</button>
+  <button class="category" onclick="filterVideos('कार')">कार</button>
+</div>
+
+<h2 id="heading">आपके लिए वीडियो</h2>
+
+<div class="videos" id="videos">
+
+  <div class="card" data-category="मनोरंजन">
+    <div class="thumbnail">🎬</div>
+    <div class="info">
+      <h3>मनोरंजन की दुनिया</h3>
+      <p>Super App · डेमो वीडियो</p>
+    </div>
+  </div>
+
+  <div class="card" data-category="खेती">
+    <div class="thumbnail">🌾</div>
+    <div class="info">
+      <h3>खेती की नई तकनीक</h3>
+      <p>किसान ज्ञान · डेमो वीडियो</p>
+    </div>
+  </div>
+
+  <div class="card" data-category="संगीत">
+    <div class="thumbnail">🎵</div>
+    <div class="info">
+      <h3>संगीत और गाने</h3>
+      <p>Music Zone · डेमो वीडियो</p>
+    </div>
+  </div>
+
+  <div class="card" data-category="टेक्नोलॉजी">
+    <div class="thumbnail">💻</div>
+    <div class="info">
+      <h3>टेक्नोलॉजी की जानकारी</h3>
+      <p>Tech Hindi · डेमो वीडियो</p>
+    </div>
+  </div>
+
+  <div class="card" data-category="पढ़ाई">
+    <div class="thumbnail">📚</div>
+    <div class="info">
+      <h3>आसान तरीके से पढ़ाई</h3>
+      <p>Learning · डेमो वीडियो</p>
+    </div>
+  </div>
+
+  <div class="card" data-category="कार">
+    <div class="thumbnail">🚘</div>
+    <div class="info">
+      <h3>कार और ऑटोमोबाइल</h3>
+      <p>Auto World · डेमो वीडियो</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="message">
+  <b>Super App में आपका स्वागत है!</b><br>
+  यह शुरुआती वेबसाइट है। असली वीडियो चलाने, अपलोड करने,
+  सुरक्षित लॉगिन, डाउनलोड और कमाई के लिए आगे सर्वर और
+  डेटाबेस जोड़ना होगा।
+</div>
+
+</main>
+
+<footer>
+  © 2026 Super App | आपका वीडियो प्लेटफॉर्म
+</footer>
+
+<script>
+function login() {
+  alert("लॉगिन सुविधा अगले चरण में बनाई जाएगी।");
+}
+
+function upload() {
+  alert("वीडियो अपलोड सुविधा अगले चरण में बनाई जाएगी।");
+}
+
+function editor() {
+  alert("वीडियो एडिटर अगले चरण में बनाया जाएगा।");
+}
+
+function settings() {
+  alert("सेटिंग्स अगले चरण में बनाई जाएँगी।");
+}
+
+function showShorts() {
+  alert("Shorts सुविधा अगले चरण में बनाई जाएगी।");
+}
+
+function showHome() {
+  document.getElementById("search").value = "";
+  filterVideos("सभी");
+}
+
+function filterVideos(category) {
+  document.querySelectorAll(".card").forEach(function(card) {
+    card.style.display =
+      category === "सभी" ||
+      card.dataset.category === category
+        ? ""
+        : "none";
+  });
+
+  document.getElementById("heading").textContent =
+    category === "सभी" ? "आपके लिए वीडियो" : category + " वीडियो";
+}
+
+function searchVideos() {
+  let query = document.getElementById("search").value
+    .trim().toLowerCase();
+
+  document.querySelectorAll(".card").forEach(function(card) {
+    let text = card.innerText.toLowerCase();
+
+    card.style.display = text.includes(query) ? "" : "none";
+  });
+
+  document.getElementById("heading").textContent =
+    query ? "सर्च के परिणाम" : "आपके लिए वीडियो";
+}
+</script>
+
+</body>
+</html>
